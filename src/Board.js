@@ -1,4 +1,4 @@
-// This file is a Backbone Model (don't worry about what that means)
+  // This file is a Backbone Model (don't worry about what that means)
 // It's part of the Board Visualizer
 // The only portions you need to work on are the helper functions (below)
 
@@ -79,12 +79,40 @@
     //
     // test if a specific row on this board contains a conflict
     hasRowConflictAt: function(rowIndex) {
-      return false; // fixme
+      var row = this.rows()[rowIndex];
+      var count = 0;
+      var conflict = false;
+
+      for (var i = 0; i < row.length; i++) {
+        if (row[i] !== 0) {
+          count++
+        }
+      };
+
+      if (count > 1) {
+        conflict = true;
+      }
+      return conflict;
     },
 
     // test if any rows on this board contain conflicts
     hasAnyRowConflicts: function() {
-      return false; // fixme
+      var rows = this.rows();
+      var count = 0;
+      var conflict = false;
+
+      for (var i = 0; i < rows.length; i++) {
+        for (var j = 0; j < rows.length; j++) {
+          if (rows[i][j] !== 0) {
+            count++;
+          }
+        }
+        if (count > 1) {
+          conflict = true;
+        }
+        count = 0;
+      }
+      return conflict;
     },
 
 
@@ -99,6 +127,17 @@
 
     // test if any columns on this board contain conflicts
     hasAnyColConflicts: function() {
+      var rows = this.rows();
+      var cols = [];
+      var allCols = [];
+
+      for (var i = 0; i < rows.length; i++) {
+
+
+      }
+
+
+
       return false; // fixme
     },
 
