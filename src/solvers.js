@@ -14,10 +14,19 @@
 // return a matrix (an array of arrays) representing a single nxn chessboard, with n rooks placed such that none of them can attack each other
 
 
+    // togglePiece: function(rowIndex, colIndex) {
+    //   this.get(rowIndex)[colIndex] = + !this.get(rowIndex)[colIndex];
+    //   this.trigger('change');
+    // },
 
 window.findNRooksSolution = function(n) {
-  var solution = undefined; //fixme
 
+  var nBoard = new Board({n: n});
+  for (var i = 0; i < n; i++) {
+    addRooktoRow(nBoard, i);
+  }
+  
+  var solution = nBoard.rows();
   console.log('Single solution for ' + n + ' rooks:', JSON.stringify(solution));
   return solution;
 };
@@ -28,6 +37,23 @@ window.countNRooksSolutions = function(n) {
 
   console.log('Number of solutions for ' + n + ' rooks:', solutionCount);
   return solutionCount;
+};
+
+window.addRooktoRow = function(board, rowIndex) {
+  // get a particular row from the board
+  var row = board.rows()[rowIndex];
+  //for each square in row
+  for (var col = 0; col < row.length; col++) {
+    //if no column conflicts with rest of board
+    board.togglePiece(rowIndex, col);
+    if (board.hasColConflictAt(col)) {
+      //add a rook at that square
+      board.togglePiece(rowIndex, col);
+      //break out of the loop and end everything
+    } else {
+      break;
+    }
+  }
 };
 
 // return a matrix (an array of arrays) representing a single nxn chessboard, with n queens placed such that none of them can attack each other
