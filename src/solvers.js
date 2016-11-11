@@ -87,10 +87,11 @@ window.recursiveAddPiece = function(board, rowIndex, findConflict) {
 // return a matrix (an array of arrays) representing a single nxn chessboard, with n queens placed such that none of them can attack each other
 window.findNQueensSolution = function(n) {
   var nBoard = new Board({n: n});
-  var solution = recursiveAddFind(nBoard, 0, function(board, row, col) {
+  recursiveAddFind(nBoard, 0, function(board, row, col) {
     return board.hasAnyQueenConflictsOn(row, col);
   });
 
+  var solution = nBoard.rows();
   console.log('Single solution for ' + n + ' queens:', JSON.stringify(solution));
   return solution;
 };
@@ -106,18 +107,18 @@ window.recursiveAddFind = function(board, rowIndex, findConflict) {
     board.togglePiece(rowIndex, col);
     if (!findConflict(board, rowIndex, col)) {
       if (rowIndex === (board.get('n') - 1)) {
-        return board.rows();
+        return true;
         //board.togglePiece(rowIndex, col);
       } else {
-        var nextRowResult = recursiveAddFind(board, rowIndex + 1, findConflict);
-        if (Array.isArray(nextRowResult)) {
-          return nextRowResult;
+        var solved = recursiveAddFind(board, rowIndex + 1, findConflict);
+        if (solved) {
+          return true;
         }
       }
     }
     board.togglePiece(rowIndex, col);
   }
-  return {n: board.get('n')};
+  return false;
 };
 
 // return the number of nxn chessboards that exist, with n queens placed such that none of them can attack each other
